@@ -5,8 +5,9 @@ using UnityEngine;
 
 public class Hexagon : MonoBehaviour
 {
-    private HexagonColor _hexagonColor;
-    private Type _type;
+    public int id;
+    public HexagonColor _color;
+    public Type _type;
 
     public Hexagon up;
     public Hexagon down;
@@ -15,13 +16,17 @@ public class Hexagon : MonoBehaviour
     public Hexagon downRight;
     public Hexagon downLeft;
 
+    public bool isPossibility;
+
     private bool _isFreeze; // Beetle on that
 
-    private GameObject Create(Hexagon creator, HexagonDirection direction, Vector2 pos, Transform parent)
+    
+
+    public bool IsEmpty()
     {
-        var newHexagon = Instantiate(gameObject, pos, quaternion.identity, parent);
-        return newHexagon;
+        return _type == Type.Empty;
     }
+    
 
 }
 

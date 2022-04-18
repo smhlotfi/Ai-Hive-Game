@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
 using UnityEngine;
 
 public class BoardInitializer : MonoBehaviour
@@ -9,7 +8,20 @@ public class BoardInitializer : MonoBehaviour
     [SerializeField] private GameObject hexagon;
     [SerializeField] private int depth;
 
+    private static BoardInitializer _instance;
     private GameObject _hexagonsParent;
+
+    public static BoardInitializer Instance
+    {
+        get
+        {
+            if (_instance) return _instance;
+            _instance = FindObjectOfType<BoardInitializer>();
+            DontDestroyOnLoad(_instance);
+            return _instance;
+        }
+    }
+
     private GameObject HexagonsParent
     {
         get
@@ -29,7 +41,8 @@ public class BoardInitializer : MonoBehaviour
     private void CreateBoard()
     {
         var margins = new Hexagon[1];
-        var centerHexagon = Instantiate(hexagon, transform.position, Quaternion.identity, HexagonsParent.transform);
+        var centerHexagon = CreateHexagon(transform.position);
+        
         margins[0] = centerHexagon.GetComponent<Hexagon>();
         for (int i = 1; i < depth; i++)
         {
@@ -179,6 +192,16 @@ public class BoardInitializer : MonoBehaviour
     private Hexagon CreateHexagon(Vector2 pos)
     {
         var hexagonGameObject = Instantiate(hexagon, pos, Quaternion.identity, HexagonsParent.transform);
-        return hexagonGameObject.GetComponent<Hexagon>();
+        var hexagonComponent = hexagonGameObject.GetComponent<Hexagon>();
+        var id = GameManager.Instance.GetId();
+        hexagonComponent.id = id;
+        GameManager.Instance.allHexagons[id] = hexagonComponent;
+        return hexagonComponent;
+    }
+
+    public int GetAllHexagonsCount()
+    {
+        var count = 1 + (depth * (depth + 1) * 6 / 2);
+        return count;
     }
 }
