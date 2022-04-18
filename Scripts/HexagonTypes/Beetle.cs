@@ -2,17 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Beetle : MonoBehaviour
+public class Beetle : Hexagon
 {
-    // Start is called before the first frame update
-    void Start()
+    public void SelectBlackBeetle()
     {
-        
+        if (GameManager.Instance.turn == Turn.White) return;
+        Select(HexagonColor.Black, blackSprite, Type.Beetle);
     }
-
-    // Update is called once per frame
-    void Update()
+    
+    public void SelectWhiteBeetle()
     {
-        
+        if (GameManager.Instance.turn == Turn.Black) return;
+        Select(HexagonColor.White, whiteSprite, Type.Beetle);
     }
 }

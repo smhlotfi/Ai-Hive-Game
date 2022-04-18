@@ -2,17 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Spider : MonoBehaviour
+public class Spider : Hexagon
 {
-    // Start is called before the first frame update
-    void Start()
+    public void SelectBlackSpider()
     {
-        
+        if (GameManager.Instance.turn == Turn.White) return;
+        Select(HexagonColor.Black, blackSprite, Type.Spider);
     }
-
-    // Update is called once per frame
-    void Update()
+    
+    public void SelectWhiteSpider()
     {
-        
+        if (GameManager.Instance.turn == Turn.Black) return;
+        Select(HexagonColor.White, whiteSprite, Type.Spider);
     }
 }

@@ -2,17 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GrassHopper : MonoBehaviour
+public class GrassHopper : Hexagon
 {
-    // Start is called before the first frame update
-    void Start()
+    public void SelectBlackGrassHopper()
     {
-        
+        if (GameManager.Instance.turn == Turn.White) return;
+        Select(HexagonColor.Black, blackSprite, Type.GrassHopper);
     }
-
-    // Update is called once per frame
-    void Update()
+    
+    public void SelectWhiteGrassHopper()
     {
-        
+        if (GameManager.Instance.turn == Turn.Black) return;
+        Select(HexagonColor.White, whiteSprite, Type.GrassHopper);
     }
 }

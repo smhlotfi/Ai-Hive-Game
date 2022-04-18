@@ -469,7 +469,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 252505738}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1772575881}
+        m_TargetAssemblyTypeName: Beetle, Assembly-CSharp
+        m_MethodName: SelectWhiteBeetle
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &252505738
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -712,6 +724,10 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2082179161}
+  - {fileID: 912505827}
+  - {fileID: 1772575880}
+  - {fileID: 1221693658}
+  - {fileID: 1124970249}
   m_Father: {fileID: 2133358790}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -749,8 +765,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 952269210937cf54c8b7c39f58bb75ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerBlack: {fileID: 814680806}
+  playerWhite: {fileID: 604352415}
   turn: 1
   lastSelectedType: 0
+  lastSelectedColor: 0
+  lastSelectedSprite: {fileID: 0}
   clickedHexagon: {fileID: 0}
   allHexagons: []
 --- !u!4 &569767127
@@ -767,6 +787,54 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &604352413
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 604352414}
+  - component: {fileID: 604352415}
+  m_Layer: 0
+  m_Name: WhitePlayer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &604352414
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 604352413}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1894922687}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &604352415
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 604352413}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 75a932c187b88dc4088553051184538a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  beeCount: 1
+  antCount: 3
+  beetleCount: 2
+  grassHopperCount: 3
+  spiderCount: 2
 --- !u!1 &722504727
 GameObject:
   m_ObjectHideFlags: 0
@@ -849,7 +917,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 722504730}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1221693659}
+        m_TargetAssemblyTypeName: GrassHopper, Assembly-CSharp
+        m_MethodName: SelectBlackGrassHopper
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &722504730
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -888,6 +968,54 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 722504727}
   m_CullTransparentMesh: 1
+--- !u!1 &814680804
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 814680805}
+  - component: {fileID: 814680806}
+  m_Layer: 0
+  m_Name: BlackPlayer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &814680805
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 814680804}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1894922687}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &814680806
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 814680804}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ecfc6d8f2ce2ffd47a8d15aa80b74e35, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  beeCount: 1
+  antCount: 3
+  beetleCount: 2
+  grassHopperCount: 3
+  spiderCount: 2
 --- !u!1 &850746485
 GameObject:
   m_ObjectHideFlags: 0
@@ -1046,6 +1174,128 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 903669749}
   m_CullTransparentMesh: 1
+--- !u!1 &912505826
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 912505827}
+  - component: {fileID: 912505828}
+  m_Layer: 5
+  m_Name: Bee
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &912505827
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 912505826}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 522783736}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &912505828
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 912505826}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f00f85878fd25d946ae1f752a3bd915c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 0
+  _color: 0
+  _type: 0
+  whiteSprite: {fileID: 21300000, guid: b4e9328e79c401e44b743df05b406c96, type: 3}
+  blackSprite: {fileID: 21300000, guid: 0258658bd011dda4fbe3b4e84feafb44, type: 3}
+  possibilityPrefab: {fileID: 6573325208650598491, guid: ccc3cc24d89eefa499d7c906d263bba1, type: 3}
+  up: {fileID: 0}
+  down: {fileID: 0}
+  upRight: {fileID: 0}
+  upLeft: {fileID: 0}
+  downRight: {fileID: 0}
+  downLeft: {fileID: 0}
+  isPossibility: 0
+--- !u!1 &1124970248
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1124970249}
+  - component: {fileID: 1124970250}
+  m_Layer: 5
+  m_Name: Spider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1124970249
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1124970248}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 522783736}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1124970250
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1124970248}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9e4dfb61ae340e49b61fdad2bee8083, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 0
+  _color: 0
+  _type: 0
+  whiteSprite: {fileID: 21300000, guid: c80fdd97b6d703f4f96a9d5507cfcabd, type: 3}
+  blackSprite: {fileID: 21300000, guid: a2dffe09b339fa84c987873598cfe16e, type: 3}
+  possibilityPrefab: {fileID: 6573325208650598491, guid: ccc3cc24d89eefa499d7c906d263bba1, type: 3}
+  up: {fileID: 0}
+  down: {fileID: 0}
+  upRight: {fileID: 0}
+  upLeft: {fileID: 0}
+  downRight: {fileID: 0}
+  downLeft: {fileID: 0}
+  isPossibility: 0
 --- !u!1 &1128364884
 GameObject:
   m_ObjectHideFlags: 0
@@ -1125,6 +1375,67 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1128364884}
   m_CullTransparentMesh: 1
+--- !u!1 &1221693657
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1221693658}
+  - component: {fileID: 1221693659}
+  m_Layer: 5
+  m_Name: GrassHopper
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1221693658
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1221693657}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 522783736}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1221693659
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1221693657}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b26e7b589a8a7d48a0c690e17535b3a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 0
+  _color: 0
+  _type: 0
+  whiteSprite: {fileID: 21300000, guid: 0d1e76994f3790d4bb6683b0cab56a00, type: 3}
+  blackSprite: {fileID: 21300000, guid: 52c22673122c0004ca5ccd736b402b3d, type: 3}
+  possibilityPrefab: {fileID: 6573325208650598491, guid: ccc3cc24d89eefa499d7c906d263bba1, type: 3}
+  up: {fileID: 0}
+  down: {fileID: 0}
+  upRight: {fileID: 0}
+  upLeft: {fileID: 0}
+  downRight: {fileID: 0}
+  downLeft: {fileID: 0}
+  isPossibility: 0
 --- !u!1 &1275093560
 GameObject:
   m_ObjectHideFlags: 0
@@ -1207,7 +1518,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1275093563}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1124970250}
+        m_TargetAssemblyTypeName: Spider, Assembly-CSharp
+        m_MethodName: SelectWhiteSpider
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1275093563
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1407,7 +1730,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1400659456}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1221693659}
+        m_TargetAssemblyTypeName: GrassHopper, Assembly-CSharp
+        m_MethodName: SelectWhiteGrassHopper
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1400659456
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1819,7 +2154,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1652768571}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1772575881}
+        m_TargetAssemblyTypeName: Beetle, Assembly-CSharp
+        m_MethodName: SelectBlackBeetle
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1652768571
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1940,7 +2287,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1734225313}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 912505828}
+        m_TargetAssemblyTypeName: Bee, Assembly-CSharp
+        m_MethodName: SelectWhiteBee
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1734225313
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1979,6 +2338,67 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1734225310}
   m_CullTransparentMesh: 1
+--- !u!1 &1772575879
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1772575880}
+  - component: {fileID: 1772575881}
+  m_Layer: 5
+  m_Name: Beetle
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1772575880
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1772575879}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 522783736}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1772575881
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1772575879}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b50a4551c12f86d488ecefc1c0b6127f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 0
+  _color: 0
+  _type: 0
+  whiteSprite: {fileID: 21300000, guid: 7f8bc7bbfeaaf804ebaf8f77a176d86a, type: 3}
+  blackSprite: {fileID: 21300000, guid: c2211120c17772f44a32fe5bb6f59f1d, type: 3}
+  possibilityPrefab: {fileID: 6573325208650598491, guid: ccc3cc24d89eefa499d7c906d263bba1, type: 3}
+  up: {fileID: 0}
+  down: {fileID: 0}
+  upRight: {fileID: 0}
+  upLeft: {fileID: 0}
+  downRight: {fileID: 0}
+  downLeft: {fileID: 0}
+  isPossibility: 0
 --- !u!1 &1777611129
 GameObject:
   m_ObjectHideFlags: 0
@@ -2157,6 +2577,38 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1845876259}
   m_CullTransparentMesh: 1
+--- !u!1 &1894922686
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1894922687}
+  m_Layer: 0
+  m_Name: Players
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1894922687
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1894922686}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 814680805}
+  - {fileID: 604352414}
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1913890939
 GameObject:
   m_ObjectHideFlags: 0
@@ -2239,7 +2691,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1913890942}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1124970250}
+        m_TargetAssemblyTypeName: Spider, Assembly-CSharp
+        m_MethodName: SelectBlackSpider
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1913890942
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2479,7 +2943,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2073204836}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 912505828}
+        m_TargetAssemblyTypeName: Bee, Assembly-CSharp
+        m_MethodName: SelectBlackBee
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2073204836
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2566,10 +3042,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a519e43a308b2945a2b3651c83df570, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  whiteAntSprite: {fileID: 21300000, guid: dbb35339487696a4084a3a44d188dbbd, type: 3}
-  blackAntSprite: {fileID: 21300000, guid: 84c689efb4c7b9b4b999d167c205e4b9, type: 3}
+  id: 0
+  _color: 0
+  _type: 0
+  whiteSprite: {fileID: 21300000, guid: dbb35339487696a4084a3a44d188dbbd, type: 3}
+  blackSprite: {fileID: 21300000, guid: 84c689efb4c7b9b4b999d167c205e4b9, type: 3}
   possibilityPrefab: {fileID: 6573325208650598491, guid: ccc3cc24d89eefa499d7c906d263bba1, type: 3}
-  idleSprite: {fileID: 21300000, guid: ce8af134d5b2d534c9083bc1c513f2da, type: 3}
+  up: {fileID: 0}
+  down: {fileID: 0}
+  upRight: {fileID: 0}
+  upLeft: {fileID: 0}
+  downRight: {fileID: 0}
+  downLeft: {fileID: 0}
+  isPossibility: 0
 --- !u!1 &2133358786
 GameObject:
   m_ObjectHideFlags: 0

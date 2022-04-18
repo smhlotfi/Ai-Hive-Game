@@ -5,13 +5,19 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public Turn turn;
-    public Type lastSelectedType = Type.Empty;
-    public Hexagon clickedHexagon;
+    public PlayerBlack playerBlack;
+    public PlayerWhite playerWhite;
+    [HideInInspector] public Turn turn;
     
-    public Dictionary<int, Hexagon> hiveMargins;
-    public Dictionary<int, Hexagon> filledHexagons;
-    public Hexagon[] allHexagons;
+    [HideInInspector] public Type lastSelectedType = Type.Empty;
+    [HideInInspector] public HexagonColor lastSelectedColor;
+    [HideInInspector] public Sprite lastSelectedSprite;
+    
+    [HideInInspector] public Hexagon clickedHexagon;
+    
+    [HideInInspector] public Dictionary<int, Hexagon> hiveMargins;
+    [HideInInspector] public Dictionary<int, Hexagon> filledHexagons;
+    [HideInInspector] public Hexagon[] allHexagons;
     
     private static GameManager _instance;
     private int _id = 0;
@@ -69,6 +75,7 @@ public class GameManager : MonoBehaviour
 
     public void AddFilledHexagon(Hexagon hexagon)
     {
+        if (filledHexagons.ContainsKey(hexagon.id)) return;
         filledHexagons.Add(hexagon.id, hexagon);
         AddHiveMarginsFor(hexagon);
         RemoveHiveMarginsFor(hexagon);
