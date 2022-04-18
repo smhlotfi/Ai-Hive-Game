@@ -45,6 +45,7 @@ public class Hexagon : MonoBehaviour
     
     public void Select(HexagonColor color, Sprite sprite, Type type)
     {
+        if (MustBeeEnter() && type != Type.Bee) return;
         GameManager.Instance.lastSelectedType = type;
         GameManager.Instance.lastSelectedColor = color;
         GameManager.Instance.lastSelectedSprite = sprite;
@@ -70,6 +71,7 @@ public class Hexagon : MonoBehaviour
         hexagon.GetComponent<SpriteRenderer>().sprite = sprite;
         if (!GameManager.Instance.filledHexagons.ContainsKey(hexagon.id))
         {
+            AddMoveNumber(color);
             GameManager.Instance.AddFilledHexagon(hexagon);
             if (color == HexagonColor.Black)
             {
@@ -80,6 +82,8 @@ public class Hexagon : MonoBehaviour
                 PlayerWhite.DecreaseCount(type);
             }
         }
+
+        
         
         HidePossibilities();
     }
@@ -87,7 +91,7 @@ public class Hexagon : MonoBehaviour
     public void ShowPossibilities()
     {
         var _hiveMargin = GameManager.Instance.hiveMargins;
-        _possibilities.Clear();
+        _possibilities = new Dictionary<int, Hexagon>();
         if (GameManager.Instance.filledHexagons.Count >= 2)
         {
             foreach (var margin in _hiveMargin)
@@ -163,6 +167,26 @@ public class Hexagon : MonoBehaviour
         if (this.downLeft._color == HexagonColor.White) return true;
         if (this.upLeft._color == HexagonColor.White) return true;
         return false;
+    }
+
+    private void AddMoveNumber(HexagonColor color)
+    {
+        if (color == HexagonColor.Black)
+        {
+            PlayerBlack.moveNumber++;
+        }
+        else
+        {
+            PlayerWhite.moveNumber++;
+        }
+    }
+    private bool MustBeeEnter()
+    {
+        if (GameManager.Instance.turn == Turn.Black)
+        {
+            return !PlayerBlack.IsBeeUsed() && PlayerBlack.moveNumber == 4;
+        }
+        return !PlayerWhite.IsBeeUsed() && PlayerWhite.moveNumber == 4;
     }
     
 

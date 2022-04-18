@@ -11,6 +11,8 @@ public class PlayerWhite : MonoBehaviour
     public int grassHopperCount;
     public int spiderCount;
 
+    public int moveNumber = 1;
+
     public void DecreaseCount(Type type)
     {
         switch (type)
@@ -50,5 +52,10 @@ public class PlayerWhite : MonoBehaviour
         }
 
         return false;
+    }
+
+    public bool IsBeeUsed()
+    {
+        return beeCount == 0;
     }
 }
