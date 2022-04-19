@@ -41,6 +41,10 @@ public class Hexagon : MonoBehaviour
             Sprite sprite = GameManager.Instance.lastSelectedSprite;
             Set(clickedHexagon, color, sprite, GameManager.Instance.lastSelectedType);
         }
+        else if (clickedHexagon._type != Type.Empty)
+        {
+            ShowMovementPossibility(clickedHexagon);
+        }
     }
     
     public void Select(HexagonColor color, Sprite sprite, Type type)
@@ -82,9 +86,6 @@ public class Hexagon : MonoBehaviour
                 PlayerWhite.DecreaseCount(type);
             }
         }
-
-        
-        
         HidePossibilities();
     }
 
@@ -131,6 +132,26 @@ public class Hexagon : MonoBehaviour
         foreach (var possibilityPrefab in possibilityPrefabs)
         {
             Destroy(possibilityPrefab);
+        }
+    }
+
+    public void ShowMovementPossibility(Hexagon hexagon)
+    {
+        if (!IsBeeUsed()) return;
+        
+        switch (hexagon._type)
+        {
+            case Type.Ant:
+                Ant.ShowMovementPossibilities();
+                return;
+            case Type.Bee:
+                return;
+            case Type.Beetle:
+                return;
+            case Type.GrassHopper:
+                return;
+            case Type.Spider:
+                return;
         }
     }
     
@@ -187,6 +208,13 @@ public class Hexagon : MonoBehaviour
             return !PlayerBlack.IsBeeUsed() && PlayerBlack.moveNumber == 4;
         }
         return !PlayerWhite.IsBeeUsed() && PlayerWhite.moveNumber == 4;
+    }
+
+    private bool IsBeeUsed()
+    {
+        if (GameManager.Instance.turn == Turn.Black && PlayerBlack.IsBeeUsed()) return true;
+        if (GameManager.Instance.turn == Turn.White && PlayerWhite.IsBeeUsed()) return true;
+        return false;
     }
     
 

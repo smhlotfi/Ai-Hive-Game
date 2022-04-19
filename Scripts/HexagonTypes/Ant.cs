@@ -18,7 +18,12 @@ public class Ant : Hexagon
         if (GameManager.Instance.turn == Turn.Black) return;
         Select(HexagonColor.White, whiteSprite, Type.Ant);
     }
-    
+
+    public static Dictionary<int, Hexagon> ShowMovementPossibilities()
+    {
+        var _hiveMargin = GameManager.Instance.hiveMargins;
+        var _possibilities = new Dictionary<int, Hexagon>();
+    }
 
     
 }
