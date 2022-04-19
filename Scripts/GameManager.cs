@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -18,6 +19,14 @@ public class GameManager : MonoBehaviour
     [HideInInspector] public Dictionary<int, Hexagon> hiveMargins;
     [HideInInspector] public Dictionary<int, Hexagon> filledHexagons;
     [HideInInspector] public Hexagon[] allHexagons;
+    
+    public List<GameObject> possibilityPrefabs = new List<GameObject>();
+    public Dictionary<int, Hexagon> possibilities = new Dictionary<int, Hexagon>();
+    
+    public List<GameObject> movementPossibilityPrefabs = new List<GameObject>();
+    public Dictionary<int, Hexagon> movementPossibilities = new Dictionary<int, Hexagon>();
+
+    [HideInInspector] public Hexagon clickedToMove;
     
     private static GameManager _instance;
     private int _id = 0;
@@ -51,6 +60,8 @@ public class GameManager : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             clickedHexagon = GetClickedHexagon();
+            if (clickedHexagon) 
+                clickedHexagon.ClickedHexagon(clickedHexagon);
         }
         else
         {
@@ -83,7 +94,9 @@ public class GameManager : MonoBehaviour
 
     public void RemoveFilledHexagon(Hexagon hexagon)
     {
-        
+        if (!filledHexagons.ContainsKey(hexagon.id)) return;
+        filledHexagons.Remove(hexagon.id);
+        RemoveHiveMarginsFor(hexagon);
     }
 
     public void AddHiveMarginsFor(Hexagon hexagon)

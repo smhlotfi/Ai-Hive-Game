@@ -99,12 +99,18 @@ MonoBehaviour:
   id: 0
   _color: 0
   _type: 0
+  whiteSprite: {fileID: 0}
+  blackSprite: {fileID: 0}
+  idleSprite: {fileID: 21300000, guid: ce8af134d5b2d534c9083bc1c513f2da, type: 3}
+  possibilityPrefab: {fileID: 0}
   up: {fileID: 0}
   down: {fileID: 0}
   upRight: {fileID: 0}
   upLeft: {fileID: 0}
   downRight: {fileID: 0}
   downLeft: {fileID: 0}
+  isPossibility: 0
+  isMovementPossibility: 0
 --- !u!58 &9085774033543670082
 CircleCollider2D:
   m_ObjectHideFlags: 0

@@ -11,7 +11,8 @@ public class Hexagon : MonoBehaviour
     
     public Sprite whiteSprite;
     public Sprite blackSprite;
-    [SerializeField] private GameObject possibilityPrefab;
+    public Sprite idleSprite;
+    public GameObject possibilityPrefab;
 
     [HideInInspector] public Hexagon up;
     [HideInInspector] public Hexagon down;
@@ -21,20 +22,38 @@ public class Hexagon : MonoBehaviour
     [HideInInspector] public Hexagon downLeft;
 
     [HideInInspector] public bool isPossibility;
-
+    [HideInInspector] public bool isMovementPossibility;
+    
     private bool _isFreeze; // Beetle on that
-    private List<GameObject> possibilityPrefabs = new List<GameObject>();
+    
 
     private Hexagon[] AllHexagons => GameManager.Instance.allHexagons;
-    private Dictionary<int, Hexagon> _possibilities = new Dictionary<int, Hexagon>();
+    
 
     private PlayerBlack PlayerBlack => GameManager.Instance.playerBlack;
     private PlayerWhite PlayerWhite => GameManager.Instance.playerWhite;
+
+    private Dictionary<int, Hexagon> Possibilities
+    {
+        get
+        {
+            return GameManager.Instance.possibilities;
+        }
+        set
+        {
+            GameManager.Instance.possibilities = value;
+        }
+    }
     
     private void Update()
     {
-        var clickedHexagon = GameManager.Instance.clickedHexagon;
+        
+    }
+
+    public void ClickedHexagon(Hexagon clickedHexagon)
+    {
         if (!clickedHexagon) return;
+        
         if (clickedHexagon.isPossibility)
         {
             HexagonColor color = GameManager.Instance.lastSelectedColor;
@@ -43,8 +62,94 @@ public class Hexagon : MonoBehaviour
         }
         else if (clickedHexagon._type != Type.Empty)
         {
+            if (clickedHexagon._color == HexagonColor.Black && GameManager.Instance.turn == Turn.White ||
+                clickedHexagon._color == HexagonColor.White && GameManager.Instance.turn == Turn.Black)
+            {
+                return;
+            }
+
+            Sprite sprite = clickedHexagon._color == HexagonColor.Black ? blackSprite : whiteSprite;
+            
+            GameManager.Instance.lastSelectedType = clickedHexagon._type;
+            GameManager.Instance.lastSelectedSprite = sprite;
+            GameManager.Instance.lastSelectedColor = clickedHexagon._color;
+            GameManager.Instance.clickedToMove = clickedHexagon;
             ShowMovementPossibility(clickedHexagon);
+            // Debug.Log(clickedHexagon.id + " : " + CanMove(clickedHexagon));
         }
+        else if (clickedHexagon.isMovementPossibility)
+        {
+            var hexagonToMove = GameManager.Instance.clickedToMove;
+            if (hexagonToMove)
+            {
+                Move(hexagonToMove, clickedHexagon);
+            }
+            GameManager.Instance.clickedToMove = null;
+        }
+    }
+
+    public void Move(Hexagon src, Hexagon dest)
+    {
+        var sprite = src.GetComponent<SpriteRenderer>().sprite;
+        switch (src._type)
+        {
+            case Type.Ant:
+                Ant.Instance.Move(src, dest, sprite, src._color, src._type);
+                break;
+            case Type.Bee:
+                break;
+            case Type.Beetle:
+                break;
+            case Type.GrassHopper:
+                break;
+            case Type.Spider:
+                break;
+        }
+        
+        ChangeTurn();
+    }
+
+    public List<Hexagon> GetAdjacent()
+    {
+        List<Hexagon> adjacent = new List<Hexagon>();
+        adjacent.Add(up);
+        adjacent.Add(upRight);
+        adjacent.Add(downRight);
+        adjacent.Add(down);
+        adjacent.Add(downLeft);
+        adjacent.Add(upLeft);
+        return adjacent;
+    }
+
+    public List<Hexagon> GetNonEmptyAdjacent()
+    {
+        var nonEmptyAdjs = new List<Hexagon>();
+        var adjs = GetAdjacent();
+        foreach (var adj in adjs)
+        {
+            if (adj._type != Type.Empty)
+            {
+                nonEmptyAdjs.Add(adj);
+            }
+        }
+
+        return nonEmptyAdjs;
+    }
+
+    public Hexagon GetOneOfNonEmptyAdjacent()
+    {
+        var adjs = GetAdjacent();
+        foreach (var adj in adjs)
+        {
+            if (adj._type != Type.Empty) return adj;
+        }
+
+        return null;
+    }
+
+    public Hexagon GetById(int id)
+    {
+        return GameManager.Instance.allHexagons[id];
     }
     
     public void Select(HexagonColor color, Sprite sprite, Type type)
@@ -71,7 +176,7 @@ public class Hexagon : MonoBehaviour
     {
         hexagon._type = type;
         hexagon._color = color;
-        ChangeTurn(color);
+        ChangeTurn();
         hexagon.GetComponent<SpriteRenderer>().sprite = sprite;
         if (!GameManager.Instance.filledHexagons.ContainsKey(hexagon.id))
         {
@@ -86,13 +191,15 @@ public class Hexagon : MonoBehaviour
                 PlayerWhite.DecreaseCount(type);
             }
         }
+
+        hexagon.isPossibility = false;
         HidePossibilities();
     }
 
     public void ShowPossibilities()
     {
         var _hiveMargin = GameManager.Instance.hiveMargins;
-        _possibilities = new Dictionary<int, Hexagon>();
+        Possibilities = new Dictionary<int, Hexagon>();
         if (GameManager.Instance.filledHexagons.Count >= 2)
         {
             foreach (var margin in _hiveMargin)
@@ -101,35 +208,35 @@ public class Hexagon : MonoBehaviour
                 if ((GameManager.Instance.turn == Turn.Black && !hexagon.HasWhiteAdjacent()) ||
                     (GameManager.Instance.turn == Turn.White && !hexagon.HasBlackAdjacent()))
                 {
-                    _possibilities.Add(hexagon.id, hexagon);
+                    Possibilities.Add(hexagon.id, hexagon);
                 }
             }
         }
         else
         {
-            _possibilities = _hiveMargin;
+            Possibilities = _hiveMargin;
         }
         
-        foreach (var possibility in _possibilities)
+        foreach (var possibility in Possibilities)
         {
             var hexagon = possibility.Value;
             hexagon.isPossibility = true;
             var pos = hexagon.transform.position;
             var rot = hexagon.transform.rotation;
             var possibilityPrefab = Instantiate(this.possibilityPrefab, pos, rot);
-            possibilityPrefabs.Add(possibilityPrefab);
+            GameManager.Instance.possibilityPrefabs.Add(possibilityPrefab);
         }
     }
 
     public void HidePossibilities()
     {
-        if (_possibilities.Count == 0) return;
-        foreach (var possibility in _possibilities)
+        // if (_possibilities.Count == 0) return;
+        foreach (var possibility in Possibilities)
         {
             var hexagon = possibility.Value;
             hexagon.isPossibility = false;
         }
-        foreach (var possibilityPrefab in possibilityPrefabs)
+        foreach (var possibilityPrefab in GameManager.Instance.possibilityPrefabs)
         {
             Destroy(possibilityPrefab);
         }
@@ -142,7 +249,8 @@ public class Hexagon : MonoBehaviour
         switch (hexagon._type)
         {
             case Type.Ant:
-                Ant.ShowMovementPossibilities();
+                if (CanMove(hexagon)) 
+                    Ant.Instance.ShowMovementPossibilities(hexagon);
                 return;
             case Type.Bee:
                 return;
@@ -156,9 +264,9 @@ public class Hexagon : MonoBehaviour
     }
     
 
-    private void ChangeTurn(HexagonColor color)
+    private void ChangeTurn()
     {
-        if (color == HexagonColor.Black)
+        if (GameManager.Instance.turn == Turn.Black)
         {
             GameManager.Instance.turn = Turn.White;
         }
@@ -216,11 +324,47 @@ public class Hexagon : MonoBehaviour
         if (GameManager.Instance.turn == Turn.White && PlayerWhite.IsBeeUsed()) return true;
         return false;
     }
-    
 
-    public bool IsEmpty()
+    private bool CanMove(Hexagon hexagon)
     {
-        return _type == Type.Empty;
+        if (hexagon._type == Type.Empty) return false;
+        bool canMove;
+        var type = hexagon._type;
+        hexagon._type = Type.Empty;
+        GameManager.Instance.filledHexagons.Remove(hexagon.id);
+        canMove = IsGraphConnected(hexagon.GetOneOfNonEmptyAdjacent());
+        hexagon._type = type;
+        GameManager.Instance.filledHexagons.Add(hexagon.id, hexagon);
+
+        return canMove;
+    }
+
+    private bool IsGraphConnected(Hexagon hexagon)
+    {
+        int count = GameManager.Instance.filledHexagons.Count;
+        List<Hexagon> visited = new List<Hexagon>();
+        DFS(hexagon.id, ref visited);
+
+        if (visited.Count == count)
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    private void DFS(int hexagonId, ref List<Hexagon> visited)
+    {
+        var hexagon = GetById(hexagonId);
+        visited.Add(hexagon);
+        var adjs = hexagon.GetAdjacent();
+        foreach (var adj in adjs)
+        {
+            if (adj._type != Type.Empty && !visited.Contains(adj))
+            {
+                DFS(adj.id, ref visited);
+            }
+        }
     }
     
 
