@@ -214,6 +214,7 @@ public class Hexagon : MonoBehaviour
 
     public void ShowPossibilities()
     {
+        HidePossibilities();
         var _hiveMargin = GameManager.Instance.hiveMargins;
         Possibilities = new Dictionary<int, Hexagon>();
         if (GameManager.Instance.filledHexagons.Count >= 2)
