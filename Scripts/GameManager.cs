@@ -89,7 +89,7 @@ public class GameManager : MonoBehaviour
         if (filledHexagons.ContainsKey(hexagon.id)) return;
         filledHexagons.Add(hexagon.id, hexagon);
         AddHiveMarginsFor(hexagon);
-        RemoveHiveMarginsFor(hexagon);
+        RemoveFromHiveMargin(hexagon);
     }
 
     public void RemoveFilledHexagon(Hexagon hexagon)
@@ -97,6 +97,7 @@ public class GameManager : MonoBehaviour
         if (!filledHexagons.ContainsKey(hexagon.id)) return;
         filledHexagons.Remove(hexagon.id);
         RemoveHiveMarginsFor(hexagon);
+        AddToHiveMargin(hexagon);
     }
 
     public void AddHiveMarginsFor(Hexagon hexagon)
@@ -129,10 +130,26 @@ public class GameManager : MonoBehaviour
 
     public void RemoveHiveMarginsFor(Hexagon hexagon)
     {
-        if (hiveMargins.ContainsKey(hexagon.id))
+        var adjs = hexagon.GetAdjacent();
+        foreach (var adj in adjs)
         {
-            hiveMargins.Remove(hexagon.id);
+            if (adj.GetNonEmptyAdjacent().Count == 0)
+            {
+                if (hiveMargins.ContainsKey(adj.id)) 
+                    hiveMargins.Remove(adj.id);
+            }
         }
+    }
+
+    public void RemoveFromHiveMargin(Hexagon hexagon)
+    {
+        if (!hiveMargins.ContainsKey(hexagon.id)) return;
+        hiveMargins.Remove(hexagon.id);
+    }
+
+    public void AddToHiveMargin(Hexagon hexagon)
+    {
+        hiveMargins.Add(hexagon.id, hexagon);
     }
 
     public bool IsFirstMove()
