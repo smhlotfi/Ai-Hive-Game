@@ -97,12 +97,15 @@ public class Hexagon : MonoBehaviour
                 Ant.Instance.Move(src, dest, sprite, src._color, src._type);
                 break;
             case Type.Bee:
+                Bee.Instance.Move(src, dest, sprite, src._color, src._type);
                 break;
             case Type.Beetle:
                 break;
             case Type.GrassHopper:
+                GrassHopper.Instance.Move(src, dest, sprite, src._color, src._type);
                 break;
             case Type.Spider:
+                Spider.Instance.Move(src, dest, sprite, src._color, src._type);
                 break;
         }
         
@@ -119,6 +122,19 @@ public class Hexagon : MonoBehaviour
         adjacent.Add(downLeft);
         adjacent.Add(upLeft);
         return adjacent;
+    }
+
+    public List<Hexagon> GetEmptyAdjacent()
+    {
+        var emptyAdjs = new List<Hexagon>();
+        var adjs = GetAdjacent();
+        foreach (var adj in adjs)
+        {
+            if (adj._type == Type.Empty)
+                emptyAdjs.Add(adj);
+        }
+
+        return emptyAdjs;
     }
 
     public List<Hexagon> GetNonEmptyAdjacent()
@@ -253,12 +269,18 @@ public class Hexagon : MonoBehaviour
                     Ant.Instance.ShowMovementPossibilities(hexagon);
                 return;
             case Type.Bee:
+                if (CanMove(hexagon))
+                    Bee.Instance.ShowMovementPossibilities(hexagon);
                 return;
             case Type.Beetle:
                 return;
             case Type.GrassHopper:
+                if (CanMove(hexagon))
+                    GrassHopper.Instance.ShowMovementPossibilities(hexagon);
                 return;
             case Type.Spider:
+                if (CanMove(hexagon))
+                    Spider.Instance.ShowMovementPossibilities(hexagon);
                 return;
         }
     }
@@ -366,6 +388,11 @@ public class Hexagon : MonoBehaviour
             }
         }
     }
+
+    public bool IsEmpty()
+    {
+        return _type == Type.Empty;
+    }
     
 
 }
@@ -379,7 +406,7 @@ public enum Type
     Empty, Bee, Beetle, GrassHopper, Ant, Spider
 }
 
-public enum HexagonDirection
+public enum Direction
 {
     Up, UpRight, DownRight, Down, DownLeft, UpLeft
 }
