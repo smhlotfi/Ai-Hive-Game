@@ -49,6 +49,7 @@ public class Spider : Hexagon
 
     public void ShowMovementPossibilities(Hexagon clickedHexagon)
     {
+        HideMovementPossibilities();
         _visitedHexagons = new List<int>();
         MovementPossibilities = new Dictionary<int, Hexagon>();
         

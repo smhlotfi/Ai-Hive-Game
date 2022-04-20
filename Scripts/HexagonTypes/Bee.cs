@@ -48,6 +48,7 @@ public class Bee : Hexagon
 
     public void ShowMovementPossibilities(Hexagon clickedHexagon)
     {
+        HideMovementPossibilities();
         var emptyAdjacent = clickedHexagon.GetEmptyAdjacent();
         MovementPossibilities = new Dictionary<int, Hexagon>();
         

@@ -48,6 +48,7 @@ public class GrassHopper : Hexagon
 
     public void ShowMovementPossibilities(Hexagon clickedHexagon)
     {
+        HideMovementPossibilities();
         MovementPossibilities = new Dictionary<int, Hexagon>();
         Hexagon possibilityHexagon;
         if (!clickedHexagon.up.IsEmpty())

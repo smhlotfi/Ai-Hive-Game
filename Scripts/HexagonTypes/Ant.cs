@@ -52,6 +52,7 @@ public class Ant : Hexagon
 
     public void ShowMovementPossibilities(Hexagon clickedHexagon)
     {
+        HideMovementPossibilities();
         var _hiveMargin = GameManager.Instance.hiveMargins;
         MovementPossibilities = new Dictionary<int, Hexagon>();
         
