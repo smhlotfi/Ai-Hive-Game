@@ -37,6 +37,7 @@ public class Ant : Hexagon
 
     public void Move(Hexagon src, Hexagon dest, Sprite sprite, HexagonColor color, Type type)
     {
+        src.RemoveFromStack();
         src.GetComponent<SpriteRenderer>().sprite = idleSprite;
         src._color = HexagonColor.NotDefined;
         src._type = Type.Empty;
@@ -44,6 +45,7 @@ public class Ant : Hexagon
         dest.GetComponent<SpriteRenderer>().sprite = sprite;
         dest._color = color;
         dest._type = type;
+        dest.AddToStack();
 
         GameManager.Instance.RemoveFilledHexagon(src);
         GameManager.Instance.AddFilledHexagon(dest);
@@ -68,6 +70,7 @@ public class Ant : Hexagon
             var hexagon = possibility.Value;
             hexagon.isMovementPossibility = true;
             var pos = hexagon.transform.position;
+            pos.z -= 0.01f;
             var rot = hexagon.transform.rotation;
             var possibilityObject = Instantiate(possibilityPrefab, pos, rot);
             GameManager.Instance.movementPossibilityPrefabs.Add(possibilityObject);
