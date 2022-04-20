@@ -67,13 +67,6 @@ public class Hexagon : MonoBehaviour
             {
                 return;
             }
-
-            Sprite sprite = clickedHexagon._color == HexagonColor.Black ? blackSprite : whiteSprite;
-            
-            GameManager.Instance.lastSelectedType = clickedHexagon._type;
-            GameManager.Instance.lastSelectedSprite = sprite;
-            GameManager.Instance.lastSelectedColor = clickedHexagon._color;
-            GameManager.Instance.clickedToMove = clickedHexagon;
             ShowMovementPossibility(clickedHexagon);
             // Debug.Log(clickedHexagon.id + " : " + CanMove(clickedHexagon));
         }
@@ -262,28 +255,36 @@ public class Hexagon : MonoBehaviour
     public void ShowMovementPossibility(Hexagon hexagon)
     {
         if (!IsBeeUsed()) return;
+        if (!CanMove(hexagon)) return;
+        SetSelectedHexagonValues(hexagon);
         
         switch (hexagon._type)
         {
             case Type.Ant:
-                if (CanMove(hexagon)) 
-                    Ant.Instance.ShowMovementPossibilities(hexagon);
+                Ant.Instance.ShowMovementPossibilities(hexagon);
                 return;
             case Type.Bee:
-                if (CanMove(hexagon))
-                    Bee.Instance.ShowMovementPossibilities(hexagon);
+                Bee.Instance.ShowMovementPossibilities(hexagon);
                 return;
             case Type.Beetle:
                 return;
             case Type.GrassHopper:
-                if (CanMove(hexagon))
-                    GrassHopper.Instance.ShowMovementPossibilities(hexagon);
+                GrassHopper.Instance.ShowMovementPossibilities(hexagon);
                 return;
             case Type.Spider:
-                if (CanMove(hexagon))
-                    Spider.Instance.ShowMovementPossibilities(hexagon);
+                Spider.Instance.ShowMovementPossibilities(hexagon);
                 return;
         }
+    }
+
+    private void SetSelectedHexagonValues(Hexagon clickedHexagon)
+    {
+        Sprite sprite = clickedHexagon._color == HexagonColor.Black ? blackSprite : whiteSprite;
+            
+        GameManager.Instance.lastSelectedType = clickedHexagon._type;
+        GameManager.Instance.lastSelectedSprite = sprite;
+        GameManager.Instance.lastSelectedColor = clickedHexagon._color;
+        GameManager.Instance.clickedToMove = clickedHexagon;
     }
     
 
