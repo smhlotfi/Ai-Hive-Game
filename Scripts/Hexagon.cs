@@ -24,8 +24,7 @@ public class Hexagon : MonoBehaviour
     [HideInInspector] public bool isPossibility;
     [HideInInspector] public bool isMovementPossibility;
     
-    private bool _isFreeze; // Beetle on that
-    
+    public Stack<SavedHexagon> stack = new Stack<SavedHexagon>();
 
     private Hexagon[] AllHexagons => GameManager.Instance.allHexagons;
     
@@ -60,16 +59,6 @@ public class Hexagon : MonoBehaviour
             Sprite sprite = GameManager.Instance.lastSelectedSprite;
             Set(clickedHexagon, color, sprite, GameManager.Instance.lastSelectedType);
         }
-        else if (clickedHexagon._type != Type.Empty)
-        {
-            if (clickedHexagon._color == HexagonColor.Black && GameManager.Instance.turn == Turn.White ||
-                clickedHexagon._color == HexagonColor.White && GameManager.Instance.turn == Turn.Black)
-            {
-                return;
-            }
-            ShowMovementPossibility(clickedHexagon);
-            // Debug.Log(clickedHexagon.id + " : " + CanMove(clickedHexagon));
-        }
         else if (clickedHexagon.isMovementPossibility)
         {
             var hexagonToMove = GameManager.Instance.clickedToMove;
@@ -78,6 +67,15 @@ public class Hexagon : MonoBehaviour
                 Move(hexagonToMove, clickedHexagon);
             }
             GameManager.Instance.clickedToMove = null;
+        }
+        else if (clickedHexagon._type != Type.Empty)
+        {
+            if (clickedHexagon._color == HexagonColor.Black && GameManager.Instance.turn == Turn.White ||
+                clickedHexagon._color == HexagonColor.White && GameManager.Instance.turn == Turn.Black)
+            {
+                return;
+            }
+            ShowMovementPossibility(clickedHexagon);
         }
     }
 
@@ -93,6 +91,7 @@ public class Hexagon : MonoBehaviour
                 Bee.Instance.Move(src, dest, sprite, src._color, src._type);
                 break;
             case Type.Beetle:
+                Beetle.Instance.Move(src, dest, sprite, src._color, src._type);
                 break;
             case Type.GrassHopper:
                 GrassHopper.Instance.Move(src, dest, sprite, src._color, src._type);
@@ -187,6 +186,7 @@ public class Hexagon : MonoBehaviour
         hexagon._color = color;
         ChangeTurn();
         hexagon.GetComponent<SpriteRenderer>().sprite = sprite;
+        
         if (!GameManager.Instance.filledHexagons.ContainsKey(hexagon.id))
         {
             AddMoveNumber(color);
@@ -202,6 +202,7 @@ public class Hexagon : MonoBehaviour
         }
 
         hexagon.isPossibility = false;
+        hexagon.AddToStack();
         HidePossibilities();
     }
 
@@ -232,6 +233,7 @@ public class Hexagon : MonoBehaviour
             var hexagon = possibility.Value;
             hexagon.isPossibility = true;
             var pos = hexagon.transform.position;
+            pos.z -= 0.01f;
             var rot = hexagon.transform.rotation;
             var possibilityPrefab = Instantiate(this.possibilityPrefab, pos, rot);
             GameManager.Instance.possibilityPrefabs.Add(possibilityPrefab);
@@ -267,6 +269,7 @@ public class Hexagon : MonoBehaviour
                 Bee.Instance.ShowMovementPossibilities(hexagon);
                 return;
             case Type.Beetle:
+                Beetle.Instance.ShowMovementPossibilities(hexagon);
                 return;
             case Type.GrassHopper:
                 GrassHopper.Instance.ShowMovementPossibilities(hexagon);
@@ -352,6 +355,7 @@ public class Hexagon : MonoBehaviour
     private bool CanMove(Hexagon hexagon)
     {
         if (hexagon._type == Type.Empty) return false;
+        if (hexagon.stack.Count > 1) return true;
         bool canMove;
         var type = hexagon._type;
         hexagon._type = Type.Empty;
@@ -395,6 +399,49 @@ public class Hexagon : MonoBehaviour
     {
         return _type == Type.Empty;
     }
+    public bool IsFreeze()
+    {
+        var top = stack.Peek();
+        
+        if (top.savedColor.Equals(_color) && top.savedType.Equals(_type))
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    public void AddToStack()
+    {
+        if (stack.Count > 0 && _type != Type.Beetle) return;
+        Sprite sprite = GetComponent<SpriteRenderer>().sprite;
+        SavedHexagon savedHexagon = new SavedHexagon(_type, _color, sprite);
+        stack.Push(savedHexagon);
+    }
+
+    public void RemoveFromStack()
+    {
+        if (stack.Count <= 0) return;
+        var top = stack.Peek();
+        if (top.savedColor.Equals(_color) && top.savedType.Equals(_type))
+        {
+            stack.Pop();
+        }
+
+        if (stack.Count > 0)
+        {
+            _type = stack.Peek().savedType;
+            _color = stack.Peek().savedColor;
+            var sprite = stack.Peek().savedSprite;
+            GetComponent<SpriteRenderer>().sprite = sprite;
+        }
+        else
+        {
+            _type = Type.Empty;
+            _color = HexagonColor.NotDefined;
+            GetComponent<SpriteRenderer>().sprite = idleSprite;
+        }
+    }
     
 
 }
@@ -411,4 +458,18 @@ public enum Type
 public enum Direction
 {
     Up, UpRight, DownRight, Down, DownLeft, UpLeft
+}
+
+public struct SavedHexagon
+{
+    public Type savedType;
+    public HexagonColor savedColor;
+    public Sprite savedSprite;
+
+    public SavedHexagon(Type type, HexagonColor color, Sprite sprite)
+    {
+        savedType = type;
+        savedColor = color;
+        savedSprite = sprite;
+    }
 }
