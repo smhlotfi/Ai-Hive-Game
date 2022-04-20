@@ -26,6 +26,9 @@ public class GameManager : MonoBehaviour
     public List<GameObject> movementPossibilityPrefabs = new List<GameObject>();
     public Dictionary<int, Hexagon> movementPossibilities = new Dictionary<int, Hexagon>();
 
+    [HideInInspector] public bool isBlackWon, isWhiteWon;
+    [HideInInspector] public int blackBeeId, whiteBeeId;
+
     [HideInInspector] public Hexagon clickedToMove;
     
     private static GameManager _instance;
@@ -149,6 +152,7 @@ public class GameManager : MonoBehaviour
 
     public void AddToHiveMargin(Hexagon hexagon)
     {
+        if (hiveMargins.ContainsKey(hexagon.id)) return;
         hiveMargins.Add(hexagon.id, hexagon);
     }
 
