@@ -156,6 +156,43 @@ public class GameManager : MonoBehaviour
         hiveMargins.Add(hexagon.id, hexagon);
     }
 
+    public bool IsGameFinish()
+    {
+        return IsWhiteBeeSurrounded() || IsBlackBeeSurrounded();
+    }
+
+    public bool IsWhiteBeeSurrounded()
+    {
+        var beeHexagon = Hexagon.GetById(whiteBeeId);
+        var beeAdjs = beeHexagon.GetAdjacent();
+        foreach (var beeAdj in beeAdjs)
+        {
+            if (beeAdj._type == Type.Empty)
+            {
+                return false;
+            }
+        }
+
+        isBlackWon = true;
+        return true;
+    }
+    
+    public bool IsBlackBeeSurrounded()
+    {
+        var beeHexagon = Hexagon.GetById(blackBeeId);
+        var beeAdjs = beeHexagon.GetAdjacent();
+        foreach (var beeAdj in beeAdjs)
+        {
+            if (beeAdj._type == Type.Empty)
+            {
+                return false;
+            }
+        }
+
+        isWhiteWon = true;
+        return true;
+    }
+
     public bool IsFirstMove()
     {
         return filledHexagons.Count == 0;

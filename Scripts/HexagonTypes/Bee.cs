@@ -43,6 +43,15 @@ public class Bee : Hexagon
         dest._type = type;
         dest.AddToStack();
 
+        if (color == HexagonColor.Black)
+        {
+            GameManager.Instance.blackBeeId = dest.id;
+        }
+        else
+        {
+            GameManager.Instance.whiteBeeId = dest.id;
+        }
+
         GameManager.Instance.RemoveFilledHexagon(src);
         GameManager.Instance.AddFilledHexagon(dest);
         HideMovementPossibilities();

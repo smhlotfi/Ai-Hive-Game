@@ -52,6 +52,7 @@ public class Hexagon : MonoBehaviour
     public void ClickedHexagon(Hexagon clickedHexagon)
     {
         if (!clickedHexagon) return;
+        if (GameManager.Instance.isBlackWon || GameManager.Instance.isWhiteWon) return;
         
         if (clickedHexagon.isPossibility)
         {
@@ -100,6 +101,8 @@ public class Hexagon : MonoBehaviour
                 Spider.Instance.Move(src, dest, sprite, src._color, src._type);
                 break;
         }
+
+        GameManager.Instance.IsGameFinish();
         
         ChangeTurn();
     }
@@ -155,7 +158,7 @@ public class Hexagon : MonoBehaviour
         return null;
     }
 
-    public Hexagon GetById(int id)
+    public static Hexagon GetById(int id)
     {
         return GameManager.Instance.allHexagons[id];
     }
@@ -203,6 +206,19 @@ public class Hexagon : MonoBehaviour
 
         hexagon.isPossibility = false;
         hexagon.AddToStack();
+
+        if (hexagon._type == Type.Bee)
+        {
+            if (hexagon._color == HexagonColor.Black)
+            {
+                GameManager.Instance.blackBeeId = hexagon.id;
+            }
+            else
+            {
+                GameManager.Instance.whiteBeeId = hexagon.id;
+            }
+        }
+
         HidePossibilities();
     }
 
@@ -305,23 +321,23 @@ public class Hexagon : MonoBehaviour
 
     private bool HasBlackAdjacent()
     {
-        if (this.up._color == HexagonColor.Black) return true;
-        if (this.upRight._color == HexagonColor.Black) return true;
-        if (this.downRight._color == HexagonColor.Black) return true;
-        if (this.down._color == HexagonColor.Black) return true;
-        if (this.downLeft._color == HexagonColor.Black) return true;
-        if (this.upLeft._color == HexagonColor.Black) return true;
+        if (up._color == HexagonColor.Black) return true;
+        if (upRight._color == HexagonColor.Black) return true;
+        if (downRight._color == HexagonColor.Black) return true;
+        if (down._color == HexagonColor.Black) return true;
+        if (downLeft._color == HexagonColor.Black) return true;
+        if (upLeft._color == HexagonColor.Black) return true;
         return false;
     }
     
     private bool HasWhiteAdjacent()
     {
-        if (this.up._color == HexagonColor.White) return true;
-        if (this.upRight._color == HexagonColor.White) return true;
-        if (this.downRight._color == HexagonColor.White) return true;
-        if (this.down._color == HexagonColor.White) return true;
-        if (this.downLeft._color == HexagonColor.White) return true;
-        if (this.upLeft._color == HexagonColor.White) return true;
+        if (up._color == HexagonColor.White) return true;
+        if (upRight._color == HexagonColor.White) return true;
+        if (downRight._color == HexagonColor.White) return true;
+        if (down._color == HexagonColor.White) return true;
+        if (downLeft._color == HexagonColor.White) return true;
+        if (upLeft._color == HexagonColor.White) return true;
         return false;
     }
 
@@ -442,8 +458,6 @@ public class Hexagon : MonoBehaviour
             GetComponent<SpriteRenderer>().sprite = idleSprite;
         }
     }
-    
-
 }
 
 public enum HexagonColor
